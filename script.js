@@ -25,10 +25,9 @@ let displayValue;
 
 digits.forEach((digit) => {
     digit.addEventListener("click", () => {
-        console.log(`in digits..operatorValue: ${operatorValue}`)
-        if (operatorValue && !displayValue) {
+        if (!displayValue) {
             display.textContent = '';
-        } 
+        }
         display.textContent += digit.textContent;
         displayValue = display.textContent;
     })
@@ -64,14 +63,20 @@ operators.forEach(operator => {
 // equal button
 const equalsButton = document.querySelector(".equals");
 equalsButton.addEventListener("click", () => {
-    if (!number1 || !number2 || !operatorValue) {
+    number2 = Number(displayValue);
+
+    if (!number1 && !number2 && !operatorValue) {
         display.textContent = "No operation entered";
         return;
     }
-    number2 = Number(displayValue);
+
     display.textContent = '';
     const result = operate(number1, number2, operatorValue);
     display.textContent = result + '';
+    number1 = Number(result);
+    displayValue = '';
+    number2 = '';
+    operatorValue = '';
 })
 
 function operate(number1, number2, operator) {
